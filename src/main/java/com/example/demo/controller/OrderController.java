@@ -40,7 +40,7 @@ public class OrderController {// singleton, dependent
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	void createOrder(@Valid @RequestBody Orders order) {
+	public void createOrder(@Valid @RequestBody Orders order) {
 		logger.info(order.getItem());
 		orderService.saveOrder(order);
 //		bean.callme();
@@ -52,7 +52,7 @@ public class OrderController {// singleton, dependent
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Orders> getOrders(@PathVariable Integer id) {
+	ResponseEntity<Orders> getOrdersById(@PathVariable Integer id) {
 		ResponseEntity<Orders> responseEntity;
 		try {
 			Orders order = orderService.getOrders(id).get();
@@ -89,7 +89,7 @@ public class OrderController {// singleton, dependent
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-	String handleAllexceptions(Exception ex) {
+	String handleAllExceptions(Exception ex) {
 		ex.printStackTrace();
 		return ex.getMessage();
 	}
