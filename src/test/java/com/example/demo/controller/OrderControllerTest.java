@@ -39,7 +39,7 @@ class OrderControllerTest {
 		assertEquals(1, result.size());
 	}
 
-//	@Test
+	@Test
 	void testGetOrdersById() {
 		Optional<Orders> order = Optional.of(new Orders());
 		when(iOrderService.getOrders(2)).thenReturn(order);
