@@ -1,8 +1,7 @@
-package com.example.demo;
+package com.example.demo.entity;
 
 import java.util.Date;
-
-import com.example.demo.entity.Address;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,13 +9,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 @Entity(name = "Order1")
 public class Orders {
@@ -45,6 +42,14 @@ public class Orders {
 	@OneToOne(cascade = CascadeType.ALL)
 //	@JoinColumn(name="address_id")
 	Address address;
+	@ManyToMany
+	Set<Supplier> suppliers;
+	public Set<Supplier> getSuppliers() {
+		return suppliers;
+	}
+	public void setSuppliers(Set<Supplier> suppliers) {
+		this.suppliers = suppliers;
+	}
 	public Address getAddress() {
 		return address;
 	}

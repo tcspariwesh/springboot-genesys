@@ -12,9 +12,9 @@ public class Day1Application {
 		ApplicationContext context = SpringApplication.run(Day1Application.class, args); // spring container = java
 																							// object
 		// bean
-		OrderController controller = context.getBean(OrderController.class);
+//		OrderController controller = context.getBean(OrderController.class);
 //		System.out.println("count##=" + context.isSingleton(s1));
-		System.out.println(controller);
+//		System.out.println(controller);
 //		controller.createOrder(); //never
 	}
 }

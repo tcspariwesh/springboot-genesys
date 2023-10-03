@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -23,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+//import com.example.demo.IMyBean;
+import com.example.demo.entity.Orders;
 import com.example.demo.service.IOrderService;
 
 import jakarta.validation.Valid;
@@ -34,9 +35,9 @@ public class OrderController {// singleton, dependent
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	IOrderService orderService; // inject
-	@Autowired
-	IMyBean bean;
-
+//	@Autowired
+//	IMyBean bean;
+	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	void createOrder(@Valid @RequestBody Orders order) {
@@ -52,13 +53,12 @@ public class OrderController {// singleton, dependent
 
 	@GetMapping("/{id}")
 	ResponseEntity<Orders> getOrders(@PathVariable Integer id) {
-		Orders order = orderService.getOrders(id);
 		ResponseEntity<Orders> responseEntity;
-		if (order == null) {
-//			logger.debug(order);
-			responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} else {
+		try {
+			Orders order = orderService.getOrders(id).get();
 			responseEntity = new ResponseEntity<>(order, HttpStatus.OK);
+		} catch (Exception e) {
+			responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return responseEntity;
 	}
