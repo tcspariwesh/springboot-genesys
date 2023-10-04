@@ -11,9 +11,9 @@ version = '0.0.1-SNAPSHOT'
 
 jacocoTestReport {
     reports {
-       // html.enabled true
-        //xml.enabled true
-       // html.destination file("${buildDir}/reports/jacoco.html")
+       html.required= true
+        xml.required=true
+       html.destination file("${buildDir}/reports/jacoco.html")
     }
 }
 
