@@ -9,10 +9,6 @@ plugins {
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
-//jacoco {
-  //  toolVersion = "0.8.5"
-//}
-
 jacocoTestReport {
     reports {
        // html.enabled true
@@ -46,7 +42,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	 testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
+	testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher'
+	 //testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 }
 
 tasks.named('test') {
