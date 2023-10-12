@@ -1,17 +1,18 @@
 package com.example.demo.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.example.demo.entity.Orders;
 import com.example.demo.service.OrderService;
@@ -22,7 +23,7 @@ class OrderControllerWebTest {
 	@Autowired
 	MockMvc mockMvc; //client
 	@Autowired
-	WebApplicationContext webApplicationContext;
+	ApplicationContext webApplicationContext;
 	@Test
 	void testCreateOrder() throws Exception {
 		Orders order = new Orders();
@@ -49,6 +50,15 @@ class OrderControllerWebTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{}"))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
+	
+	@Test
+	void testGetOrder() throws Exception {
+		Optional<Orders> order = Optional.of(new Orders());
+		when(orderService.getOrders(1 )).thenReturn(order);
+		mockMvc.perform(MockMvcRequestBuilders.get("/order/1"))
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
 	}
 
 }

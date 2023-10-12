@@ -23,7 +23,12 @@ public class OrderServiceTest2 {
 	IOrderRepository orderRepository;
 	@InjectMocks
 	OrderService orderService;
-
+	
+	@Test
+	void testMethod(){
+		int result = OrderService.method1();
+		
+	}
 	@Test
 	public void testGetOrders() {
 		// Arrange
