@@ -33,14 +33,14 @@ import jakarta.validation.Valid;
 public class OrderController {// singleton, dependent
 
 	Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired
+	@Autowired(required = false)
 	IOrderService orderService; // inject
 //	@Autowired
 //	IMyBean bean;
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void createOrder(@Valid @RequestBody Orders order) {
+	public void saveOrder(@Valid @RequestBody Orders order) {
 		logger.info(order.getItem());
 		orderService.saveOrder(order);
 //		bean.callme();
