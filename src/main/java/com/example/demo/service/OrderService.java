@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,8 @@ import com.example.demo.repository.IOrderRepository;
 public class OrderService implements IOrderService {
 	@Autowired
 	IOrderRepository repository;
+	@Autowired
+    CacheManager cacheManager;
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	public OrderService() {
@@ -24,6 +28,7 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
+//	@Cacheable(value = "orders")
 	@Transactional(rollbackFor = { Exception.class })
 	public Integer saveOrder(Orders order) {
 		order.setCreatedDate(new Date());
@@ -47,7 +52,13 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
+	@Cacheable(value = "orders")
 	public Optional<Orders> getOrders(Integer id) {
+		Orders cachedObject =(Orders) cacheManager.getCache("orders").get(id);
+		System.out.println(cachedObject);
+		if(cachedObject  != null) {
+            return  Optional.of(cachedObject);
+        }
 		return repository.findById(id);
 	}
 

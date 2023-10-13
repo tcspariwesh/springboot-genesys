@@ -16,7 +16,7 @@ import com.example.demo.entity.Orders;
 //@RunWith(SpringRunner.class)
 class OrderServiceTest {
 	@MockBean
-	OrderService service;
+	IOrderService service;
 
 	@Test
 	void testSaveOrder() {

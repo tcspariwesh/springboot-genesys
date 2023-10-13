@@ -36,7 +36,7 @@ public class Orders {
 	String email;
 	@NotBlank
 	@Pattern(regexp = "^\\d{10}$", message = "invalid number")
-	@Column( unique = true)
+//	@Column( unique = true)
 //	@Transient
 	String mobile;
 	@OneToOne(cascade = CascadeType.ALL)
