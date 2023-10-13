@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +20,8 @@ public class OrderService implements IOrderService {
 	@Autowired
 	IOrderRepository repository;
 	Logger logger = LoggerFactory.getLogger(getClass());
-
+	@Autowired
+	CacheManager cacheManager;
 	public OrderService() {
 		System.out.println("Order service bean initializing");
 	}
@@ -47,8 +50,14 @@ public class OrderService implements IOrderService {
 	}
 
 	@Override
+	@Cacheable(value="orders", key = "id")
 	public Optional<Orders> getOrders(Integer id) {
-		return repository.findById(id);
+		Orders fromCache = (Orders) cacheManager.getCache("orders").get(id);
+		System.out.println(fromCache);
+		if(fromCache == null)
+			return repository.findById(id);
+		else
+			return Optional.of(fromCache);
 	}
 
 	@Override
